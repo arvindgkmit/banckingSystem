@@ -91,12 +91,12 @@ exports.login = (req, res) => {
 exports.logout = (req, res) => {
     try {
         res.clearCookie("token");
-    return res.status(200).json({
-        message: "Logout Successfully"
-    })
+        return res.status(200).json({
+            message: "Logout Successfully"
+        })
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
     }
-    
+
 }
