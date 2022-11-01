@@ -20,7 +20,7 @@ exports.addUser = (req, res) => {
         db.query("INSERT INTO users(name, email, password) values (?,?,?)", [name, email, hash_pass], (err, result) => {
             if (err) {
                 return res.status(400).json({
-                    message: "plesae enter all required fields"
+                    message: "account is already exist"
                 });
             }
 

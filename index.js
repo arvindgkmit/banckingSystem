@@ -14,3 +14,5 @@ let port = process.env.PORT;
 app.listen(port, ()=>{
     console.log("port is runnnig on 5000");
 })
+
+module.exports = app;
