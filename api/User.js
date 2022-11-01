@@ -64,7 +64,6 @@ exports.updateUser = (req, res) => {
 
 }
 
-
 // user login api 
 exports.login = (req, res) => {
     let email = req.body.email;
