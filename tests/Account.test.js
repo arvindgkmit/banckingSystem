@@ -125,7 +125,7 @@ describe("create withdraw api test cases ", () => {
     })
 
     it("tests /api/withdraw for response 400 bad request withdraw amount", async () => {
-       
+
         const response = await request(app)
             .patch("/api/withdraw")
             .auth(userToken, { type: 'bearer' })

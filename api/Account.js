@@ -15,18 +15,15 @@ exports.accounts = (req, res) => {
 
     try {
         db.query("INSERT INTO accounts(type, amount, userId) values(?,?,?)",
-         [type, amount, userId], (err, result) => {
+            [type, amount, userId], (err, result) => {
 
-            // if (err) {
-            //     return res.status(400).json({
-            //         message: 'please enter all required fileds'
-            //     });
-            // }
-            return res.status(201).json({
-                message: 'Account created successfully'
-            })
+                if (!err) {
+                    return res.status(201).json({
+                        message: 'Account created successfully'
+                    })
+                }
 
-        });
+            });
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
@@ -46,30 +43,30 @@ exports.deposit = (req, res) => {
     }
 
     try {
-        db.query("SELECT amount FROM accounts WHERE accountNo = ? ", 
-        [accountNo], (err, result) => {
+        db.query("SELECT amount FROM accounts WHERE accountNo = ? ",
+            [accountNo], (err, result) => {
 
-            if (result[0].amount.length == 0) {
-                return res.status(404).json({
-                    message: "account not exist"
-                });
-            }
+                if (result[0].amount.length == 0) {
+                    return res.status(404).json({
+                        message: "account not exist"
+                    });
+                }
 
-            let depositAmount = result[0].amount + amount;
-            db.query("UPDATE accounts SET amount = ? WHERE accountNo = ?",
-             [depositAmount, accountNo], (err, result) => {
+                let depositAmount = result[0].amount + amount;
+                db.query("UPDATE accounts SET amount = ? WHERE accountNo = ?",
+                    [depositAmount, accountNo], (err, result) => {
 
-                db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
-                ["deposit", amount, accountNo, "success"],(err, data)=>{
+                        db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
+                            ["deposit", amount, accountNo, "success"], (err, data) => {
 
-                    return res.status(200).json({
-                        message: "amount deposit successfully"
-                    })
-                })
-      
-            });
+                                return res.status(200).json({
+                                    message: "amount deposit successfully"
+                                })
+                            })
 
-        })
+                    });
+
+            })
 
     } catch (error) {
         console.error(error.message);
@@ -92,38 +89,34 @@ exports.withdraw = (req, res) => {
 
     try {
         db.query("SELECT amount, userId FROM accounts WHERE (accountNo = ?  AND userId = ? )",
-         [accountNo, userId], (err, result) => {
-            if (result[0].userId == userId) {
-                if (result[0].amount.legth == 0) {
-                    return res.status(404).json({
-                        message: "account not exist"
-                    });
-                }
-                if (result[0].amount >= amount) {
-                    let depositAmount = result[0].amount - amount;
-                    db.query("UPDATE accounts SET amount = ? WHERE (accountNo = ? AND userId = ?)",
-                     [depositAmount, accountNo, userId], (err, result) => {
-                        if(!err){
-                        db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
-                        ["withdraw", amount, accountNo, "success"],(err, data)=>{
-        
-                            return res.status(200).json({
-                                message: " amount withdraw successfully"
-                            })
-                        })
+            [accountNo, userId], (err, result) => {
+                if (result[0].userId == userId) {
+                    if (result[0].amount >= amount) {
+                        let depositAmount = result[0].amount - amount;
+                        db.query("UPDATE accounts SET amount = ? WHERE (accountNo = ? AND userId = ?)",
+                            [depositAmount, accountNo, userId], (err, result) => {
+                                if (!err) {
+                                    db.query(`INSERT INTO transaction(type, amount, accountNo, status)
+                                     values(?,?,?,?)`,
+                                        ["withdraw", amount, accountNo, "success"], (err, data) => {
+
+                                            return res.status(200).json({
+                                                message: " amount withdraw successfully"
+                                            })
+                                        })
+                                }
+
+                            });
                     }
 
-                    });
+                    else {
+                        return res.status(400).json({
+                            message: "insufficient balance"
+                        })
+                    }
                 }
 
-                else {
-                    return res.status(400).json({
-                        message: "insufficient balance"
-                    })
-                }
-            } 
-
-        })
+            })
 
 
     } catch (error) {

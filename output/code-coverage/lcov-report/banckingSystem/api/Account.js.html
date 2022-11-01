@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.67% </span>
+                <span class="strong">85.41% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>41/49</span>
+                <span class='fraction'>41/48</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.67% </span>
+                <span class="strong">85.41% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>41/49</span>
+                <span class='fraction'>41/48</span>
             </div>
         
             
@@ -192,14 +192,7 @@
 <a name='L127'></a><a href='#L127'>127</a>
 <a name='L128'></a><a href='#L128'>128</a>
 <a name='L129'></a><a href='#L129'>129</a>
-<a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a>
-<a name='L137'></a><a href='#L137'>137</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L130'></a><a href='#L130'>130</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -218,12 +211,9 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -296,16 +286,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -352,18 +338,15 @@ exports.accounts = (req, res) =&gt; {
 &nbsp;
     try {
         db.query("INSERT INTO accounts(type, amount, userId) values(?,?,?)",
-         [type, amount, userId], (err, result) =&gt; {
+            [type, amount, userId], (err, result) =&gt; {
 &nbsp;
-            // if (err) {
-            //     return res.status(400).json({
-            //         message: 'please enter all required fileds'
-            //     });
-            // }
-            return res.status(201).json({
-                message: 'Account created successfully'
-            })
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (!err) {
+                    return res.status(201).json({
+                        message: 'Account created successfully'
+                    })
+                }
 &nbsp;
-        });
+            });
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
@@ -383,30 +366,30 @@ exports.deposit = (req, res) =&gt; {
     }
 &nbsp;
     try {
-        db.query("SELECT amount FROM accounts WHERE accountNo = ? ", 
-        [accountNo], (err, result) =&gt; {
+        db.query("SELECT amount FROM accounts WHERE accountNo = ? ",
+            [accountNo], (err, result) =&gt; {
 &nbsp;
-            <span class="missing-if-branch" title="if path not taken" >I</span>if (result[0].amount.length == 0) {
-<span class="cstat-no" title="statement not covered" >                return res.status(404).json({</span>
-                    message: "account not exist"
-                });
-            }
+                <span class="missing-if-branch" title="if path not taken" >I</span>if (result[0].amount.length == 0) {
+<span class="cstat-no" title="statement not covered" >                    return res.status(404).json({</span>
+                        message: "account not exist"
+                    });
+                }
 &nbsp;
-            let depositAmount = result[0].amount + amount;
-            db.query("UPDATE accounts SET amount = ? WHERE accountNo = ?",
-             [depositAmount, accountNo], (err, result) =&gt; {
+                let depositAmount = result[0].amount + amount;
+                db.query("UPDATE accounts SET amount = ? WHERE accountNo = ?",
+                    [depositAmount, accountNo], (err, result) =&gt; {
 &nbsp;
-                db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
-                ["deposit", amount, accountNo, "success"],(err, data)=&gt;{
+                        db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
+                            ["deposit", amount, accountNo, "success"], (err, data) =&gt; {
 &nbsp;
-                    return res.status(200).json({
-                        message: "amount deposit successfully"
-                    })
-                })
-      
-            });
+                                return res.status(200).json({
+                                    message: "amount deposit successfully"
+                                })
+                            })
 &nbsp;
-        })
+                    });
+&nbsp;
+            })
 &nbsp;
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
@@ -429,38 +412,34 @@ exports.withdraw = (req, res) =&gt; {
 &nbsp;
     try {
         db.query("SELECT amount, userId FROM accounts WHERE (accountNo = ?  AND userId = ? )",
-         [accountNo, userId], (err, result) =&gt; {
-            <span class="missing-if-branch" title="else path not taken" >E</span>if (result[0].userId == userId) {
-                <span class="missing-if-branch" title="if path not taken" >I</span>if (result[0].amount.legth == 0) {
-<span class="cstat-no" title="statement not covered" >                    return res.status(404).json({</span>
-                        message: "account not exist"
-                    });
-                }
-                if (result[0].amount &gt;= amount) {
-                    let depositAmount = result[0].amount - amount;
-                    db.query("UPDATE accounts SET amount = ? WHERE (accountNo = ? AND userId = ?)",
-                     [depositAmount, accountNo, userId], (err, result) =&gt; {
-                        <span class="missing-if-branch" title="else path not taken" >E</span>if(!err){
-                        db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
-                        ["withdraw", amount, accountNo, "success"],(err, data)=&gt;{
-        
-                            return res.status(200).json({
-                                message: " amount withdraw successfully"
-                            })
-                        })
+            [accountNo, userId], (err, result) =&gt; {
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (result[0].userId == userId) {
+                    if (result[0].amount &gt;= amount) {
+                        let depositAmount = result[0].amount - amount;
+                        db.query("UPDATE accounts SET amount = ? WHERE (accountNo = ? AND userId = ?)",
+                            [depositAmount, accountNo, userId], (err, result) =&gt; {
+                                <span class="missing-if-branch" title="else path not taken" >E</span>if (!err) {
+                                    db.query(`INSERT INTO transaction(type, amount, accountNo, status)
+                                     values(?,?,?,?)`,
+                                        ["withdraw", amount, accountNo, "success"], (err, data) =&gt; {
+&nbsp;
+                                            return res.status(200).json({
+                                                message: " amount withdraw successfully"
+                                            })
+                                        })
+                                }
+&nbsp;
+                            });
                     }
 &nbsp;
-                    });
+                    else {
+                        return res.status(400).json({
+                            message: "insufficient balance"
+                        })
+                    }
                 }
 &nbsp;
-                else {
-                    return res.status(400).json({
-                        message: "insufficient balance"
-                    })
-                }
-            } 
-&nbsp;
-        })
+            })
 &nbsp;
 &nbsp;
     } catch (error) {
@@ -478,7 +457,7 @@ exports.withdraw = (req, res) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-01T11:01:03.270Z
+                at 2022-11-01T11:54:38.042Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

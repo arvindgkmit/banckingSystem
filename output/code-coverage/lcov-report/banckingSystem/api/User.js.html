@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.36% </span>
+                <span class="strong">81.96% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>50/63</span>
+                <span class='fraction'>50/61</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.36% </span>
+                <span class="strong">81.96% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>50/63</span>
+                <span class='fraction'>50/61</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -243,6 +243,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -311,6 +312,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -380,8 +382,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const express = require("express");
 const bcrypt = require("bcrypt");
@@ -402,7 +402,8 @@ exports.addUser = (req, res) =&gt; {
 &nbsp;
     let hash_pass = bcrypt.hashSync(password, 10);
     try {
-        db.query("INSERT INTO users(name, email, password) values (?,?,?)", [name, email, hash_pass], (err, result) =&gt; {
+        db.query("INSERT INTO users(name, email, password) values (?,?,?)",
+         [name, email, hash_pass], (err, result) =&gt; {
             <span class="missing-if-branch" title="else path not taken" >E</span>if (err) {
                 return res.status(400).json({
                     message: "account is already exist"
@@ -414,7 +415,7 @@ exports.addUser = (req, res) =&gt; {
             });
 &nbsp;
         })
-    } 
+    }
     catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
@@ -424,18 +425,18 @@ exports.addUser = (req, res) =&gt; {
 &nbsp;
 // get all user account api 
 exports.getAllUser = (req, res) =&gt; {
-    
+&nbsp;
     try {
         db.query(` SELECT users.name, users.email, accounts.accountNo, accounts.type,
         accounts.amount,users.status FROM users 
         INNER JOIN accounts ON users.id = accounts.userId `,
-         (err, result)=&gt;{
-            
-        return res.status(200).json({
-          data: result
-        })
+            (err, result) =&gt; {
 &nbsp;
-        })
+                return res.status(200).json({
+                    data: result
+                })
+&nbsp;
+            })
 &nbsp;
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
@@ -445,40 +446,41 @@ exports.getAllUser = (req, res) =&gt; {
 &nbsp;
 // get single user
 exports.getUser = (req, res) =&gt; {
-    let userId = req.params.userId; 
+    let userId = req.params.userId;
     try {
         db.query(` SELECT users.name, users.id, users.email, accounts.accountNo, accounts.type,
         accounts.amount,users.status FROM users INNER JOIN 
-        accounts ON users.id = accounts.userId  WHERE users.id = ? `,[userId],
-         (err, result)=&gt;{
-        return res.status(200).json({
-          data: result
-        })
+        accounts ON users.id = accounts.userId  WHERE users.id = ? `, [userId],
+            (err, result) =&gt; {
+                return res.status(200).json({
+                    data: result
+                })
 &nbsp;
-        })
+            })
 &nbsp;
-    } 
+    }
     catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
     }
 }
- 
+&nbsp;
 // close user account api 
 exports.closeAccount = (req, res) =&gt; {
     let userId = req.params.userId;
     let status = "inactive"
-   
+&nbsp;
     try {
-        db.query("UPDATE users SET status = ? WHERE id = ?",[status, userId], (err, result)=&gt;{
-            
-        return res.status(204).json({
-            message: "account close successfully"
-        })
+        db.query("UPDATE users SET status = ? WHERE id = ?",
+         [status, userId], (err, result) =&gt; {
+&nbsp;
+            return res.status(204).json({
+                message: "account close successfully"
+            })
 &nbsp;
         })
 &nbsp;
-    } 
+    }
     catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
@@ -499,31 +501,31 @@ exports.login = (req, res) =&gt; {
 &nbsp;
     try {
         db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) =&gt; {
-               <span class="missing-if-branch" title="else path not taken" >E</span>if(!err){
-             if (result.length == 0) {
-                return res.status(404).json({
-                    message: "user not found"
-                });
-            }
+            <span class="missing-if-branch" title="else path not taken" >E</span>if (!err) {
+                if (result.length == 0) {
+                    return res.status(404).json({
+                        message: "user not found"
+                    });
+                }
 &nbsp;
-            let verify_pass = bcrypt.compareSync(password, result[0].password);
-            if (verify_pass) {
-                const token = jwt.sign(result[0].id, process.env.SECRET);
-                res.cookie("token", token, { expire: new Date() + 100000 });
-                return res.status(200).json({
-                    message: "login successfully",
-                    token: token
-                });
+                let verify_pass = bcrypt.compareSync(password, result[0].password);
+                if (verify_pass) {
+                    const token = jwt.sign(result[0].id, process.env.SECRET);
+                    res.cookie("token", token, { expire: new Date() + 100000 });
+                    return res.status(200).json({
+                        message: "login successfully",
+                        token: token
+                    });
+                }
+                else {
+                    return res.status(400).json({
+                        message: "incorrect password"
+                    });
+                }
             }
-            else {
-                return res.status(400).json({
-                    message: "incorrect password"
-                });
-            }
-        }
         })
 &nbsp;
-    } 
+    }
     catch (error) {
 <span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
 <span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
@@ -539,9 +541,7 @@ exports.logout = (req, res) =&gt; {
             message: "Logout Successfully"
         })
     }
-     catch (error) {
-<span class="cstat-no" title="statement not covered" >        console.error(error.message);</span>
-<span class="cstat-no" title="statement not covered" >        res.status(500).send("Internal Server Error");</span>
+    catch (error) {
     }
 }</pre></td></tr></table></pre>
 
@@ -550,7 +550,7 @@ exports.logout = (req, res) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-01T11:01:03.270Z
+                at 2022-11-01T11:54:38.042Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
