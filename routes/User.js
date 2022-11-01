@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const {user, login, logout} = require("../api/User")
+const {addUser, login, logout, updateUser} = require("../api/User")
 const {isSignedIn} = require("../middleware/IssignedIn")
 const {isAdmin} = require("../middleware/Isadmin")
 
-router.post('/users',isSignedIn, isAdmin, user);
+router.post('/users',isSignedIn, isAdmin, addUser);
+router.patch('/users/:userId',isSignedIn, updateUser);
 router.post('/login', login);
 router.post('/logout', isSignedIn, logout);
 

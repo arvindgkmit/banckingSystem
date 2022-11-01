@@ -36,6 +36,34 @@ exports.user = (req, res) => {
 
 }
 
+// update user
+exports.updateUser = (req, res) => {
+    let userId = req.params.userId;
+    let email = req.body.email;
+    let password = req.body.password;
+
+  
+    let hash_pass = bcrypt.hashSync(password, 10);
+    try {
+        db.query("UPDATE users SET email = ?, password = ? WHERE userId = ?", [email, hash_pass, userId], (err, result) => {
+            if (err) {
+                return res.status(400).json({
+                    message: "plesae enter all required fields"
+                });
+            }
+
+            return res.status(201).json({
+                message: "user data update successfully"
+            });
+
+        })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+
+}
+
 // user login api 
 
 exports.login = (req, res) => {
