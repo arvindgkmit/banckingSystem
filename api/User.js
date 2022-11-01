@@ -36,13 +36,11 @@ exports.addUser = (req, res) => {
 
 }
 
-
 // update user
 exports.updateUser = (req, res) => {
     let userId = req.params.userId;
     let email = req.body.email;
     let password = req.body.password;
-
   
     let hash_pass = bcrypt.hashSync(password, 10);
     try {
@@ -52,7 +50,6 @@ exports.updateUser = (req, res) => {
                     message: "plesae enter all required fields"
                 });
             }
-            
             return res.status(201).json({
                 message: "user data update successfully"
             });
