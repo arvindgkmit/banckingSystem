@@ -55,7 +55,26 @@ exports.getAllUser = (req, res) => {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
     }
+}
 
+exports.getUser = (req, res) => {
+    let userId = req.params.userId; 
+    try {
+        db.query(` SELECT users.name, users.email, accounts.accountNo, accounts.type,
+        accounts.amount,users.status FROM users INNER JOIN 
+        accounts ON users.id = accounts.userId  WHERE users.id = ? `,[userId],
+         (err, result)=>{
+            
+        return res.status(200).json({
+          data: result
+        })
+
+        })
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
 }
  
 // close user account api 
