@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1667298391631" clover="3.2.0">
-  <project timestamp="1667298391631" name="All files">
+<coverage generated="1667298627197" clover="3.2.0">
+  <project timestamp="1667298627197" name="All files">
     <metrics statements="179" coveredstatements="153" conditionals="42" coveredconditionals="35" methods="25" coveredmethods="23" elements="246" coveredelements="211" complexity="0" loc="179" ncloc="179" packages="4" files="10" classes="10"/>
     <package name="banckingSystem">
       <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
