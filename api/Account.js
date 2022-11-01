@@ -49,7 +49,7 @@ exports.deposit = (req, res) => {
         db.query("SELECT amount FROM accounts WHERE accountNo = ? ", 
         [accountNo], (err, result) => {
 
-            if (result[0].amount.legth == 0) {
+            if (result[0].amount.length == 0) {
                 return res.status(404).json({
                     message: "account not exist"
                 });
@@ -64,9 +64,14 @@ exports.deposit = (req, res) => {
                         message: "please all required details"
                     });
                 }
-                return res.status(200).json({
-                    message: " amount deposit successfully"
+                db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
+                ["deposit", amount, accountNo, "success"],(err, data)=>{
+
+                    return res.status(200).json({
+                        message: " amount deposit successfully"
+                    })
                 })
+      
             });
 
         })
@@ -109,10 +114,14 @@ exports.withdraw = (req, res) => {
                                 message: "please enter amount"
                             });
                         }
-
-                        return res.status(200).json({
-                            message: " amount withdraw successfully"
+                        db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
+                        ["withdraw", amount, accountNo, "success"],(err, data)=>{
+        
+                            return res.status(200).json({
+                                message: " amount withdraw successfully"
+                            })
                         })
+                       
 
                     });
                 }
