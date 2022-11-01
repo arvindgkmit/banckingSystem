@@ -59,6 +59,7 @@ it("tests /api/users for response 401 unautherized add user", async () => {
 });
 
 
+
 describe("get all users api  test cases ", () => {
     it("tests /api/users for response 200 succesfull get all users ", async () => {
         const response = await request(app)
@@ -90,11 +91,7 @@ describe("get single users api  test cases ", () => {
   
   it("tests /api/users for response 401 unautherized get asinglell user", async () => {
       const response = await request(app)
-      .get("/api/users")
-      .auth(userToken, {type: 'bearer'})
-      expect(response.body).toEqual({
-          message:"Admin access required"
-      })
+      .get("/api/users/5")
       expect(response.statusCode).toBe(401)
   })
   
@@ -106,9 +103,6 @@ describe("get single users api  test cases ", () => {
         const response = await request(app)
         .delete("/api/users/5")
         .auth(adminToken, {type: 'bearer'})
-        expect(response.body).toEqual({
-            message:"Admin access required"
-        })
         expect(response.statusCode).toBe(204)
     }) 
   
@@ -138,6 +132,19 @@ describe("get single users api  test cases ", () => {
             token: "eyJhbGciOiJIUzI1NiJ9.NQ.fTkwv649RbxOl-18OjhSqU8qqsPQlnqb1IdH21zwU_g"
         })
         expect(response.statusCode).toBe(200)
+    }) 
+
+    it("tests /api/login for response 404 not fount login manager ", async () => {
+        const response = await request(app)
+        .post("/api/login")
+        .send({
+            email: "manager1@gmail.com",
+            password: "manager"
+        })
+        expect(response.body).toEqual({
+            message: "user not found"
+        })
+        expect(response.statusCode).toBe(404)
     }) 
 
     it("tests /api/login for response 400 bad request login user ", async () => {
@@ -192,15 +199,5 @@ describe("get single users api  test cases ", () => {
         })
         expect(response.statusCode).toBe(200)
     }) 
-  
-//   it("tests /api/logout for response 401 unautherized  account", async () => {
-//       const response = await request(app)
-//       .delete("/api/users/5")
-//       .auth(userToken, {type: 'bearer'})
-//       expect(response.body).toEqual({
-//           message:"Admin access required"
-//       })
-//       expect(response.statusCode).toBe(401)
-//   })
   
   });  

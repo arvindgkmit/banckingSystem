@@ -31,8 +31,8 @@ exports.addUser = (req, res) => {
         })
     } 
     catch (error) {
-        // console.error(error.message);
-        // res.status(500).send("Internal Server Error");
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
 
 }
@@ -53,8 +53,8 @@ exports.getAllUser = (req, res) => {
         })
 
     } catch (error) {
-        // console.error(error.message);
-        // res.status(500).send("Internal Server Error");
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
 }
 
@@ -73,8 +73,8 @@ exports.getUser = (req, res) => {
 
     } 
     catch (error) {
-        // console.error(error.message);
-        // res.status(500).send("Internal Server Error");
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
 }
  
@@ -94,8 +94,8 @@ exports.closeAccount = (req, res) => {
 
     } 
     catch (error) {
-        // console.error(error.message);
-        // res.status(500).send("Internal Server Error");
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
 
 }
@@ -113,13 +113,8 @@ exports.login = (req, res) => {
 
     try {
         db.query("SELECT * FROM users WHERE email = ?", [email], (err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    message: "please enter all the required fields"
-                });
-            }
-
-            if (result.length == 0) {
+               if(!err){
+             if (result.length == 0) {
                 return res.status(404).json({
                     message: "user not found"
                 });
@@ -139,13 +134,13 @@ exports.login = (req, res) => {
                     message: "incorrect password"
                 });
             }
-
+        }
         })
 
     } 
     catch (error) {
-        // console.error(error.message);
-        // res.status(500).send("Internal Server Error");
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
 
 }
@@ -160,7 +155,7 @@ exports.logout = (req, res) => {
         })
     }
      catch (error) {
-        // console.error(error.message);
-        // res.status(500).send("Internal Server Error");
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
     }
 }

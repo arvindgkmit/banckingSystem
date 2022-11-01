@@ -17,11 +17,11 @@ exports.accounts = (req, res) => {
         db.query("INSERT INTO accounts(type, amount, userId) values(?,?,?)",
          [type, amount, userId], (err, result) => {
 
-            if (err) {
-                return res.status(400).json({
-                    message: 'please enter all required fileds'
-                });
-            }
+            // if (err) {
+            //     return res.status(400).json({
+            //         message: 'please enter all required fileds'
+            //     });
+            // }
             return res.status(201).json({
                 message: 'Account created successfully'
             })
@@ -59,16 +59,11 @@ exports.deposit = (req, res) => {
             db.query("UPDATE accounts SET amount = ? WHERE accountNo = ?",
              [depositAmount, accountNo], (err, result) => {
 
-                if (err) {
-                    return res.status(404).json({
-                        message: "please all required details"
-                    });
-                }
                 db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
                 ["deposit", amount, accountNo, "success"],(err, data)=>{
 
                     return res.status(200).json({
-                        message: " amount deposit successfully"
+                        message: "amount deposit successfully"
                     })
                 })
       
@@ -108,12 +103,7 @@ exports.withdraw = (req, res) => {
                     let depositAmount = result[0].amount - amount;
                     db.query("UPDATE accounts SET amount = ? WHERE (accountNo = ? AND userId = ?)",
                      [depositAmount, accountNo, userId], (err, result) => {
-
-                        if (err) {
-                            return res.status(404).json({
-                                message: "please enter amount"
-                            });
-                        }
+                        if(!err){
                         db.query("INSERT INTO transaction(type, amount, accountNo, status) values(?,?,?,?)",
                         ["withdraw", amount, accountNo, "success"],(err, data)=>{
         
@@ -121,7 +111,7 @@ exports.withdraw = (req, res) => {
                                 message: " amount withdraw successfully"
                             })
                         })
-                       
+                    }
 
                     });
                 }
@@ -131,11 +121,7 @@ exports.withdraw = (req, res) => {
                         message: "insufficient balance"
                     })
                 }
-            } else {
-                return res.status(401).json({
-                    message: "unautherized user"
-                })
-            }
+            } 
 
         })
 

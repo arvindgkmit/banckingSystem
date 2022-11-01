@@ -6,7 +6,7 @@ exports.isAdmin = (req,res,next)=>
     db.query("select email from users where id = ?",[id],(err,result)=>
     {
         if(result.length==0){
-        return res.status(404).json({error:"please enter vaild email or password"});
+        // return res.status(404).json({error:"please enter vaild email or password"});
         }
         // console.log(result[0].email);
         if(result[0].email!="manager@gmail.com"){

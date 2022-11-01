@@ -11,8 +11,10 @@ app.use("/api", user);
 app.use("/api", account);
 
 let port = process.env.PORT;
-app.listen(port, ()=>{
-    console.log("port is runnnig on 5000");
-})
+// app.listen(port, ()=>{
+//     console.log("port is runnnig on 5000");
+// })
+
+app.listen(port);
 
 module.exports = app;
