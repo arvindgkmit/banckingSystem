@@ -79,7 +79,6 @@ exports.deposit = (req, res) => {
 
 
 // amount Withdraw api 
-
 exports.withdraw = (req, res) => {
     let accountNo = req.body.accountNo;
     let userId = req.auth;
@@ -90,7 +89,7 @@ exports.withdraw = (req, res) => {
             message: "please all  required details"
         })
     }
-    //  if(userId){
+
     try {
         db.query("SELECT amount, userId FROM accounts WHERE (accountNo = ?  AND userId = ? )",
          [accountNo, userId], (err, result) => {
@@ -138,3 +137,5 @@ exports.withdraw = (req, res) => {
     }
 
 }
+
+
