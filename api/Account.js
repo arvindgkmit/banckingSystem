@@ -45,7 +45,7 @@ exports.deposit = (req, res) => {
     try {
         db.query("SELECT amount FROM accounts WHERE accountNo = ? ",
             [accountNo], (err, result) => {
-
+                  if(!err){
                 if (result[0].amount.length == 0) {
                     return res.status(404).json({
                         message: "account not exist"
@@ -65,7 +65,7 @@ exports.deposit = (req, res) => {
                             })
 
                     });
-
+                }
             })
 
     } catch (error) {
@@ -90,6 +90,7 @@ exports.withdraw = (req, res) => {
     try {
         db.query("SELECT amount, userId FROM accounts WHERE (accountNo = ?  AND userId = ? )",
             [accountNo, userId], (err, result) => {
+                if(!err){
                 if (result[0].userId == userId) {
                     if (result[0].amount >= amount) {
                         let depositAmount = result[0].amount - amount;
@@ -115,7 +116,7 @@ exports.withdraw = (req, res) => {
                         })
                     }
                 }
-
+            }
             })
     } catch (error) {
         console.error(error.message);

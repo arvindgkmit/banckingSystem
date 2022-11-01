@@ -88,11 +88,11 @@ exports.closeAccount = (req, res) => {
     try {
         db.query("UPDATE users SET status = ? WHERE id = ?",
          [status, userId], (err, result) => {
-
-            return res.status(204).json({
+               if(!err){
+              return res.status(204).json({
                 message: "account close successfully"
             })
-
+        }
         })
 
     }

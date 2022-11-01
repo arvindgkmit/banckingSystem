@@ -10,10 +10,11 @@ exports.transactions = (req, res) => {
         transaction ON accounts.accountNo = transaction.accountNo  WHERE accounts.userId = ? `,
             [userId],
             (err, result) => {
+                if(!err){
                 return res.status(200).json({
                     data: result
                 })
-
+            }
             })
 
     }
