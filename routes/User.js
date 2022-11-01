@@ -5,7 +5,7 @@ const {isSignedIn} = require("../middleware/IssignedIn")
 const {isAdmin} = require("../middleware/Isadmin")
 
 router.post('/users',isSignedIn, isAdmin, addUser);
-// router.patch('/users/:userId',isSignedIn, updateUser);
+router.patch('/users/:userId',isSignedIn, updateUser);
 router.post('/login', login);
 router.post('/logout', isSignedIn, logout);
 
