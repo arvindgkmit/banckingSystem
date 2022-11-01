@@ -11,15 +11,4 @@ const db = mysql.createConnection({
     multipleStatements: true
 });
 
-// var connection = mysql.createConnection({multipleStatements: true});
-
-
-// db.connect((error)=>{
-//     if(error){
-//         console.log(error)
-//     }
-//     else{
-//         console.log("connected successfully");
-//     }
-// });
 module.exports = db;

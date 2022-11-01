@@ -58,6 +58,7 @@ exports.getAllUser = (req, res) => {
     }
 }
 
+// get single user
 exports.getUser = (req, res) => {
     let userId = req.params.userId; 
     try {
@@ -144,7 +145,6 @@ exports.login = (req, res) => {
     }
 
 }
-
 
 // user logout api
 exports.logout = (req, res) => {
