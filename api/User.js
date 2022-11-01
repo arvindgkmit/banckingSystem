@@ -36,32 +36,28 @@ exports.addUser = (req, res) => {
 
 }
 
-// update user
-exports.updateUser = (req, res) => {
-    let userId = req.params.userId;
-    let email = req.body.email;
-    let password = req.body.password;
-  
-    let hash_pass = bcrypt.hashSync(password, 10);
+// get all user account api 
+exports.getAllUser = (req, res) => {
+    
     try {
-        db.query("UPDATE users SET email = ?, password = ? WHERE userId = ?", [email, hash_pass, userId], (err, result) => {
-            if (err) {
-                return res.status(400).json({
-                    message: "plesae enter all required fields"
-                });
-            }
-            return res.status(201).json({
-                message: "user data update successfully"
-            });
+        db.query(` SELECT users.name, users.email, accounts.accountNo, accounts.type,
+        accounts.amount,users.status FROM users 
+        INNER JOIN accounts ON users.id = accounts.userId `,
+         (err, result)=>{
+            
+        return res.status(200).json({
+          data: result
+        })
 
         })
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
     }
 
 }
-
+ 
 // close user account api 
 exports.closeAccount = (req, res) => {
     let userId = req.params.userId;
