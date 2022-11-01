@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require("../db");
 
 // add user api  
-exports.user = (req, res) => {
+exports.addUser = (req, res) => {
     let name = req.body.name;
     let email = req.body.email;
     let password = req.body.password;
@@ -57,6 +57,27 @@ exports.updateUser = (req, res) => {
             });
 
         })
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send("Internal Server Error");
+    }
+
+}
+
+// close user account api 
+exports.closeAccount = (req, res) => {
+    let userId = req.params.userId;
+    let status = "inactive"
+   
+    try {
+        db.query("UPDATE users SET status = ? WHERE id = ?",[status, userId], (err, result)=>{
+            
+        return res.status(204).json({
+            message: "account close successfully"
+        })
+
+        })
+
     } catch (error) {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
@@ -125,5 +146,4 @@ exports.logout = (req, res) => {
         console.error(error.message);
         res.status(500).send("Internal Server Error");
     }
-    
 }
