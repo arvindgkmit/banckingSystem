@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1667303678068" clover="3.2.0">
-  <project timestamp="1667303678068" name="All files">
+<coverage generated="1667303979092" clover="3.2.0">
+  <project timestamp="1667303979092" name="All files">
     <metrics statements="177" coveredstatements="157" conditionals="42" coveredconditionals="35" methods="25" coveredmethods="25" elements="244" coveredelements="217" complexity="0" loc="177" ncloc="177" packages="4" files="10" classes="10"/>
     <package name="banckingSystem">
       <metrics statements="20" coveredstatements="20" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
@@ -81,8 +81,8 @@
         <line num="99" count="1" type="stmt"/>
         <line num="103" count="1" type="stmt"/>
         <line num="113" count="1" type="stmt"/>
-        <line num="123" count="0" type="stmt"/>
-        <line num="124" count="0" type="stmt"/>
+        <line num="121" count="0" type="stmt"/>
+        <line num="122" count="0" type="stmt"/>
       </file>
       <file name="Transaction.js" path="/Users/apple/code/banckingSystem/api/Transaction.js">
         <metrics statements="9" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
