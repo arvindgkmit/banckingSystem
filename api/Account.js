@@ -16,12 +16,15 @@ exports.accounts = (req, res) => {
     try {
         db.query("INSERT INTO accounts(type, amount, userId) values(?,?,?)",
             [type, amount, userId], (err, result) => {
-
-                if (!err) {
+                
+                if(err){
+                    res.status(500).json({
+                        message: "internal server error"
+                    })
+                }
                     return res.status(201).json({
                         message: 'Account created successfully'
                     })
-                }
 
             });
     } catch (error) {
@@ -51,6 +54,11 @@ exports.deposit = (req, res) => {
                         message: "account not exist"
                     });
                 }
+                else{
+                    res.status(500).json({
+                        message: "internal server error"
+                    })  
+                }
 
                 let depositAmount = result[0].amount + amount;
                 db.query("UPDATE accounts SET amount = ? WHERE accountNo = ?",
@@ -66,6 +74,10 @@ exports.deposit = (req, res) => {
 
                     });
                 }
+
+                res.status(500).json({
+                    message: "internal server error"
+                })
             })
 
     } catch (error) {
@@ -116,6 +128,11 @@ exports.withdraw = (req, res) => {
                         })
                     }
                 }
+            }
+            else{
+                res.status(500).json({
+                    message: "internal server error"
+                })
             }
             })
     } catch (error) {

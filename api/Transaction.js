@@ -5,16 +5,20 @@ const db = require("../db");
 exports.transactions = (req, res) => {
     let userId = req.params.userId;
     try {
-        db.query(` SELECT accounts.userId, transaction.type,
+        db.query(` SELEC accounts.userId, transaction.type,
         transaction.amount, transaction.status, transaction.dateTime FROM accounts INNER JOIN 
         transaction ON accounts.accountNo = transaction.accountNo  WHERE accounts.userId = ? `,
             [userId],
             (err, result) => {
-                if(!err){
+                if(err){
+                    res.status(500).json({
+                        message: "internal server error"
+                    })
+                }
                 return res.status(200).json({
                     data: result
                 })
-            }
+    
             })
 
     }

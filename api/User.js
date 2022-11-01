@@ -46,11 +46,16 @@ exports.getAllUser = (req, res) => {
         accounts.amount,users.status FROM users 
         INNER JOIN accounts ON users.id = accounts.userId `,
             (err, result) => {
-
+               if(!err){
                 return res.status(200).json({
                     data: result
                 })
-
+            }
+            else{
+                res.status(500).json({
+                    message: "internal server error"
+                })
+            }
             })
 
     } catch (error) {
@@ -67,10 +72,16 @@ exports.getUser = (req, res) => {
         accounts.amount,users.status FROM users INNER JOIN 
         accounts ON users.id = accounts.userId  WHERE users.id = ? `, [userId],
             (err, result) => {
+                if(!err){
                 return res.status(200).json({
                     data: result
                 })
-
+            }
+            else{
+                res.status(500).json({
+                    message: "internal server error"
+                })
+            }
             })
 
     }
@@ -91,6 +102,11 @@ exports.closeAccount = (req, res) => {
                if(!err){
               return res.status(204).json({
                 message: "account close successfully"
+            })
+        }
+        else{
+            res.status(500).json({
+                message: "internal server error"
             })
         }
         })
@@ -138,6 +154,11 @@ exports.login = (req, res) => {
                     });
                 }
             }
+            else{
+            res.status(500).json({
+                message: "internal server error"
+            })
+        }
         })
 
     }
