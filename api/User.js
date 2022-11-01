@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const db = require("../db");
 
 // add user api  
-exports.user = (req, res) => {
+exports.addUser = (req, res) => {
     let name = req.body.name;
     let email = req.body.email;
     let password = req.body.password;
@@ -35,6 +35,7 @@ exports.user = (req, res) => {
     }
 
 }
+
 
 // user login api 
 
