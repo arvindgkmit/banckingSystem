@@ -29,9 +29,10 @@ exports.addUser = (req, res) => {
             });
 
         })
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+    } 
+    catch (error) {
+        // console.error(error.message);
+        // res.status(500).send("Internal Server Error");
     }
 
 }
@@ -52,28 +53,28 @@ exports.getAllUser = (req, res) => {
         })
 
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+        // console.error(error.message);
+        // res.status(500).send("Internal Server Error");
     }
 }
 
 exports.getUser = (req, res) => {
     let userId = req.params.userId; 
     try {
-        db.query(` SELECT users.name, users.email, accounts.accountNo, accounts.type,
+        db.query(` SELECT users.name, users.id, users.email, accounts.accountNo, accounts.type,
         accounts.amount,users.status FROM users INNER JOIN 
         accounts ON users.id = accounts.userId  WHERE users.id = ? `,[userId],
          (err, result)=>{
-            
         return res.status(200).json({
           data: result
         })
 
         })
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+    } 
+    catch (error) {
+        // console.error(error.message);
+        // res.status(500).send("Internal Server Error");
     }
 }
  
@@ -91,9 +92,10 @@ exports.closeAccount = (req, res) => {
 
         })
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+    } 
+    catch (error) {
+        // console.error(error.message);
+        // res.status(500).send("Internal Server Error");
     }
 
 }
@@ -140,9 +142,10 @@ exports.login = (req, res) => {
 
         })
 
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+    } 
+    catch (error) {
+        // console.error(error.message);
+        // res.status(500).send("Internal Server Error");
     }
 
 }
@@ -155,8 +158,9 @@ exports.logout = (req, res) => {
         return res.status(200).json({
             message: "Logout Successfully"
         })
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send("Internal Server Error");
+    }
+     catch (error) {
+        // console.error(error.message);
+        // res.status(500).send("Internal Server Error");
     }
 }

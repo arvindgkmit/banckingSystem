@@ -10,7 +10,7 @@ exports.isAdmin = (req,res,next)=>
         }
         // console.log(result[0].email);
         if(result[0].email!="manager@gmail.com"){
-        return res.status(403).json({message:"Admin access required"});
+        return res.status(401).json({message:"Admin access required"});
         }
         next();
     });
