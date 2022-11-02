@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+// const mysql = require("mysql");
 const Sequelize = require("sequelize"); 
 const dotenv = require("dotenv");
 dotenv.config();
