@@ -1,5 +1,7 @@
 const db = require("../models/db")
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const dotenv = require("dotenv")
 var validator = require("email-validator");
 const User = db.users;
 
@@ -28,7 +30,7 @@ exports.createUser = async (req, res) => {
                 email: email
             }
         })
-        console.log("fetchEmail", fetchEmail);
+      
         if (fetchEmail) {
             return res.status(409).json({
                 message: "user is already exist"
@@ -50,6 +52,60 @@ exports.createUser = async (req, res) => {
         return res.status(500).json({
             message: "internal server error"
         })
+    }
+
+}
+
+
+// user login api  
+exports.login = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (email == "" || password == "" || !email || !password) {
+        return res.status(400).json({
+            message: "please provide all required fields and their value"
+        })
+    }
+
+    try {
+        // check email exist in database  or not 
+        let checkEmail = await User.count({
+            where: {
+                email: email
+            }
+        })
+       
+        let userData;
+        if (checkEmail) {
+            userData = await User.findOne(userData);
+        } else {
+            return res.status(404).json({
+                message: "user not found"
+            })
+        }
+
+        let verifyPassword = bcrypt.compareSync(password, userData.password);
+
+        if (verifyPassword) {
+
+            const token = jwt.sign(userData.password, process.env.SECRET);
+            res.cookie("token", token, { expire: new Date() + 100000 });
+
+            return res.status(200).json({
+                message: "logged in successfully",
+                token: token
+            });
+
+        } else {
+            return res.status(200).json({
+                message: "Invalid Credentials"
+            });
+        }
+
+    } catch (error) {
+        return res.status(500).json({
+            message: "internal server error"
+        });
     }
 
 }
