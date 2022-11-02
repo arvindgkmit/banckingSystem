@@ -22,8 +22,18 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
         allowNull: false
       },
+      status: {
+        type      : Sequelize.ENUM('active', 'inactive'),
+        defaultValue : "inactive"
+      },
+     createdAt: {
+        type         : 'TIMESTAMP',
+        defaultValue : Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull    : false
+      }
     },{
-      tableName: false
+      tableName: false,
+      timestamps: false
     });
   
     return User;

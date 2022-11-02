@@ -10,16 +10,17 @@ module.exports = (sequelize, Sequelize) => {
         allowNull : false,
       },
       amount: {
-        type      : Sequelize.INTEGER,
-        allowNull : false,
+        type         : Sequelize.INTEGER,
+        allowNull    : false,
       },
       userId: {
-        type      : Sequelize.INTEGER,
-        allowNull : false,
-        foreignKey: true
+        type         : Sequelize.INTEGER,
+        foreignKey   : true
       },
     },{
-      tableName: false
+      initialAutoIncrement: 100000000,
+      tableName: false,
+      timestamps: false
     });
   
     return Account;

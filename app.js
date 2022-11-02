@@ -10,9 +10,17 @@ try {
     console.error('Unable to connect to the database:', error);
   }
 
-//   sync table in database from model
+ // sync user model in database from model
+let User = db.users;
+User.sync({ alter: true })
+
+// sync account model in database from model
 let Account = db.accounts;
 Account.sync({ alter: true })
+
+// sync Transactionss model in database from model
+let Transaction = db.transactions;
+Transaction.sync({ alter: true })
 
 let port = process.env.PORT;
 app.listen(port, ()=>{

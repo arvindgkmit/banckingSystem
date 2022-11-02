@@ -16,6 +16,7 @@ db.sequelize = sequelize;
 // use models
 db.users = require("./User")(sequelize, Sequelize);
 db.accounts = require("./Account")(sequelize, Sequelize);
+db.transactions = require("./Transaction")(sequelize, Sequelize);
 
 
 module.exports = db;
