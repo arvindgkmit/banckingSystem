@@ -109,3 +109,22 @@ exports.login = async (req, res) => {
     }
 
 }
+
+
+// user logout api 
+exports.logout = (req, res) => {
+    try {
+        res.clearCookie("token");
+        // console.log(res.cookie("token"));
+        return res.status(200).json({
+            message: "Logout Successfully"
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "internal server error"
+        });
+    }
+}
+  
+
