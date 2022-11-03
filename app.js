@@ -31,3 +31,5 @@ let port = process.env.PORT;
 app.listen(port, ()=>{
     console.log("port is running on 3000");
 })
+
+module.exports = app;
