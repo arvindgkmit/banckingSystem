@@ -12,7 +12,7 @@ exports.createUser = async (req, res) => {
     const { name, email, password } = req.body;
     let hashPassword = bcrypt.hashSync(password, 10);
 
-    if (name == "" || email == "" || password == "" || !name || !email || !password) {
+    if (!name || !email || !password) {
         return res.status(400).json({
             message: "please provide all required fields"
         })

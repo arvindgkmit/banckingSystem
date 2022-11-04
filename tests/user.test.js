@@ -1,6 +1,6 @@
 const request = require("supertest");
 const app = require("../app");
-
+// create users test cases
 describe("users api  test cases ", () => {
 
     it("tests /api/users for response 201 succesfull add user", async () => {
@@ -16,7 +16,8 @@ describe("users api  test cases ", () => {
         })
         expect(response.statusCode).toBe(201)
     });
-    it("tests /api/users for response 201 succesfull add user", async () => {
+
+    it("tests /api/users for response 400 bad request add user", async () => {
         const response = await request(app)
             .post("/api/users")
             .send({
@@ -25,10 +26,25 @@ describe("users api  test cases ", () => {
                 password: "kapil"
             })
         expect(response.body).toEqual({
-            message: "please provide all required fields and their value"
+            message: "please provide all required fields"
         })
         expect(response.statusCode).toBe(400)
     });
+
+    it("tests /api/users for response 201 succesfull add user", async () => {
+        const response = await request(app)
+            .post("/api/users")
+            .send({
+             
+                email: "kapil4@gmail.com",
+                password: "kapil"
+            })
+        expect(response.body).toEqual({
+            message: "please provide all required fields"
+        })
+        expect(response.statusCode).toBe(400)
+    });
+
     it("tests /api/users for response 201 succesfull add user", async () => {
         const response = await request(app)
             .post("/api/users")
@@ -42,5 +58,6 @@ describe("users api  test cases ", () => {
         })
         expect(response.statusCode).toBe(400)
     });
+
 
 });
