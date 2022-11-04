@@ -13,7 +13,7 @@ exports.createUser = async (req, res) => {
 
     if (name == "" || email == "" || password == "" || !name || !email || !password) {
         return res.status(400).json({
-            message: "please provide all required fields and their value"
+            message: "please provide all required fields"
         })
     }
     // check email is vaild or not 

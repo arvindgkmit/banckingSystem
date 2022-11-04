@@ -2,6 +2,7 @@ const express = require("express");
 const db = require("./app/models/db");
 const userRoutes = require("./app/routes/userRoute");
 const accountRoutes = require("./app/routes/accountRoutes"); 
+const transactionRoutes = require("./app/routes/transactionRoutes"); 
 const cookieParser = require('cookie-parser');
 const app  = express();
 app.use(express.json());
@@ -18,6 +19,7 @@ try {
 //   available routes
 app.use("/api", userRoutes);
 app.use("/api", accountRoutes);
+app.use("/api", transactionRoutes);
 
  // sync user model in database from model
 // let User = db.users;
