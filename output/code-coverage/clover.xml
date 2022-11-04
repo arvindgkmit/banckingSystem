@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1667465550559" clover="3.2.0">
-  <project timestamp="1667465550559" name="All files">
-    <metrics statements="88" coveredstatements="64" conditionals="22" coveredconditionals="11" methods="7" coveredmethods="5" elements="117" coveredelements="80" complexity="0" loc="88" ncloc="88" packages="5" files="8" classes="8"/>
+<coverage generated="1667476930516" clover="3.2.0">
+  <project timestamp="1667476930516" name="All files">
+    <metrics statements="88" coveredstatements="63" conditionals="22" coveredconditionals="11" methods="7" coveredmethods="4" elements="117" coveredelements="78" complexity="0" loc="88" ncloc="88" packages="5" files="8" classes="8"/>
     <package name="restroMangement">
-      <metrics statements="14" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <metrics statements="14" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
       <file name="app.js" path="/Users/apple/code/restroMangement/app.js">
-        <metrics statements="14" coveredstatements="13" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <metrics statements="14" coveredstatements="12" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -18,13 +18,13 @@
         <line num="16" count="1" type="stmt"/>
         <line num="30" count="1" type="stmt"/>
         <line num="31" count="1" type="stmt"/>
-        <line num="32" count="1" type="stmt"/>
+        <line num="32" count="0" type="stmt"/>
         <line num="35" count="1" type="stmt"/>
       </file>
     </package>
     <package name="restroMangement.app.controllers">
       <metrics statements="42" coveredstatements="19" conditionals="22" coveredconditionals="11" methods="3" coveredmethods="1"/>
-      <file name="userController.js" path="/Users/apple/code/restroMangement/app/controllers/userController.js">
+      <file name="user.js" path="/Users/apple/code/restroMangement/app/controllers/user.js">
         <metrics statements="42" coveredstatements="19" conditionals="22" coveredconditionals="11" methods="3" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>

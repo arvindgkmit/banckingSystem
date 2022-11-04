@@ -7,15 +7,18 @@
     "start": "nodemon app.js",
     "test": "jest --watchAll"
   },
-  "jest":{
+  "jest": {
     "collectCoverage": true,
-    "coverageRepoter": ["lcov"],
+    "coverageRepoter": [
+      "lcov"
+    ],
     "coverageDirectory": "./output/code-coverage/"
-   },
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "dotenv": "^16.0.3",
     "email-check": "^1.1.0",
     "email-existence": "^0.1.6",

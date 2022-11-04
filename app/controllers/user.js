@@ -77,18 +77,22 @@ exports.login = async (req, res) => {
        
         let userData;
         if (checkEmail) {
-            userData = await User.findOne(userData);
+            userData = await User.findOne({
+                where: {
+                    email: email
+                }});
         } else {
             return res.status(404).json({
                 message: "user not found"
             })
         }
+        console.log("userData", userData);
 
         let verifyPassword = bcrypt.compareSync(password, userData.password);
 
         if (verifyPassword) {
 
-            const token = jwt.sign(userData.password, process.env.SECRET);
+            const token = jwt.sign({userId:userData.id}, process.env.SECRET);
             res.cookie("token", token, { expire: new Date() + 100000 });
 
             return res.status(200).json({
@@ -103,8 +107,10 @@ exports.login = async (req, res) => {
         }
 
     } catch (error) {
+
+        console.log(error)
         return res.status(500).json({
-            message: "internal server error"
+            message: error
         });
     }
 

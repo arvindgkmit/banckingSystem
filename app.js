@@ -1,8 +1,11 @@
 const express = require("express");
 const db = require("./app/models/db");
-const userRoute = require("./app/routes/userRoute");
+const userRoutes = require("./app/routes/userRoute");
+const accountRoutes = require("./app/routes/accountRoutes"); 
+const cookieParser = require('cookie-parser');
 const app  = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // check database connection 
 try {
@@ -13,7 +16,8 @@ try {
   }
 
 //   available routes
-app.use("/api", userRoute);
+app.use("/api", userRoutes);
+app.use("/api", accountRoutes);
 
  // sync user model in database from model
 // let User = db.users;
