@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require("dotenv")
 var validator = require("email-validator");
 const User = db.users;
+const Account = db.accounts;
 
 
 // create user api 
@@ -132,5 +133,101 @@ exports.logout = (req, res) => {
         });
     }
 }
+
+
+exports.getAllUsers = async (req, res) => {
+    
+    try {
+        let users = await User.findAll({
+            attributes: { exclude: ['password' ] }
+        });
+
+        let final_output = []
+
+        for(let user of users){
+            let accounts = await Account.findAll({where : {
+                userId: user.id
+            }})
+         
+            let output = {
+                user: user,
+                accounts: accounts
+            }
+
+            final_output.push(output)
+        }
+        
+        return res.status(200).json({
+           data: final_output
+        });
+        
+    } catch (error) {
+        console.log("errorororoor", error)
+        return res.status(500).json({
+            message: "internal server error"
+        });
+    }
+}
   
+
+// exports.getSingleUsers = async (req, res) => {
+//     let userId = req.params.id;
+//     try {
+//         let users = await User.findOne({
+//             where: {
+//              id: userId
+//             },
+//             attributes: { exclude: ['password' ] }
+//         });
+//          console.log(users);
+//         let final_output = []
+
+
+//             let accounts = await Account.findAll({where : {
+//                 userId: user.id
+//             }})
+
+//          for(let account of accounts){
+            
+
+//             let output = {
+//                 user: user,
+//                 accounts: accounts
+//             }
+
+//             final_output.push(output)
+//         // }
+        
+//         return res.status(200).json({
+//            data: final_output
+//         });
+        
+//     } catch (error) {
+//         console.log("errorororoor", error)
+//         return res.status(500).json({
+//             message: "internal server error"
+//         });
+//     }
+// }
+  
+exports.getSingleUsers = async (req, res) => {
+    let userId = req.params.id;
+    console
+    try {
+        userData = await Account.findAll({
+            where: {
+                userId: userId
+            }});
+           console.log("dagjha", userData);
+            return res.status(200).json({
+                data: userData
+            });
+        
+    } catch (error) {
+        return res.status(500).json({
+            message: "internal server error"
+        });
+    }
+
+}
 
