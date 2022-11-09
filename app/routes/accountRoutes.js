@@ -5,6 +5,6 @@ const {isAdmin} = require("../middleware/isAdmin");
 const {isSignedIn} = require("../middleware/isSignedIn");
 
 router.post("/accounts", isSignedIn, isAdmin, account);
-router.patch("/accounts/:id", isSignedIn, isAdmin, closeAccount);
+router.patch("/accounts", isSignedIn, isAdmin, closeAccount);
 
 module.exports = router;

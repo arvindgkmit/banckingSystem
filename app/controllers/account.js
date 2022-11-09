@@ -41,20 +41,43 @@ exports.account = async (req, res)=>{
 }
 
 exports.closeAccount = async (req, res)=>{
-    let id = req.params.id;
-    if(!id){
+    // let id = req.params.id;
+    let accountNo = req.body.accountNo;
+    if(!accountNo){
         return res.status(400).json({
-            message: "please pass the user id in params"
+            message: "please enter acountNo"
         }) 
     }
 
     try {
-         await User.update(
+
+        let checkAccountStatus = await Account.count({
+            where: {
+                accountNo: accountNo
+            }
+        })
+
+        if(!checkAccountStatus){
+            return res.status(404).json({
+                message: "account not found"
+            })
+        }
+        let getStatus = await Account.findOne({
+            where: { accountNo: accountNo },
+              attributes: { exclude: ['accountNo', 'type', 'amount', 'userId' ] }
+        });
+        let currentStatus = getStatus;
+        if(currentStatus.dataValues.status == "inactive"){
+            return res.status(400).json({
+                message: "account is already closed"
+            })
+        }
+         await Account.update(
             {
                 status: "Inactive",
             },
             {
-              where: { id: id },
+              where: { accountNo: accountNo },
             }
             );
             return res.status(200).json({

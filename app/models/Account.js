@@ -13,9 +13,13 @@ module.exports = (sequelize, Sequelize) => {
         type         : Sequelize.INTEGER,
         allowNull    : false,
       },
-      userId: {
+      useId: {
         type         : Sequelize.INTEGER,
         foreignKey   : true
+      },
+      status: {
+        type         : Sequelize.ENUM('active', 'inactive'),
+        defaultValue   : "active"
       },
     },{
       initialAutoIncrement: 100000000,

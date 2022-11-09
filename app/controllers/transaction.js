@@ -13,8 +13,26 @@ exports.deposit = async (req, res) => {
         });
       }
 
-      try {
+      if(amount<0){
+        return res.status(400).json({
+            message: "invalid amount"
+        });
+      }
 
+      try {
+        
+        let checkAccount = await Account.count({
+            where: {
+                accountNo: accountNo
+            }
+        })
+         
+        if(!checkAccount){
+            return res.status(404).json({
+                message: "account not found"
+            })
+        }
+         
         userData = await Account.findOne({
             where: {
                 accountNo: accountNo
@@ -22,6 +40,18 @@ exports.deposit = async (req, res) => {
             let cuurentAmount = userData.amount;
             let updateAmount = cuurentAmount+ amount;
 
+            let getStatus = await Account.findOne({
+                where: { accountNo: accountNo },
+                  attributes: { exclude: ['accountNo', 'type', 'amount', 'userId' ] }
+            });
+        
+            let currentStatus = getStatus;
+            if(currentStatus.dataValues.status == "inactive"){
+                return res.status(400).json({
+                    message: "account is already closed"
+                })
+            }
+            
             await Account.update(
                 {
                  amount: updateAmount,
@@ -61,13 +91,43 @@ exports.withdraw = async (req, res) => {
       });
     }
 
+    if(amount<0){
+        return res.status(400).json({
+            message: "invalid amount"
+        });
+      }
+
     try {
+
+        let checkAccount = await Account.count({
+            where: {
+                accountNo: accountNo
+            }
+        })
+         
+        if(!checkAccount){
+            return res.status(404).json({
+                message: "account not found"
+            })
+        }
+
+        let getStatus = await Account.findOne({
+            where: { accountNo: accountNo },
+              attributes: { exclude: ['accountNo', 'type', 'amount', 'userId' ] }
+        });
+    
+        let currentStatus = getStatus;
+        if(currentStatus.dataValues.status == "inactive"){
+            return res.status(400).json({
+                message: "account is already closed"
+            })
+        }
         
         userData = await Account.findOne({
             where: {
                 accountNo: accountNo
             }});
-
+              
             let cuurentAmount = userData.amount
             if(cuurentAmount>=amount){
 
@@ -112,7 +172,7 @@ exports.transaction = async (req, res) => {
     let userId =req.userId;
    try {
 
-   let transactions = await Transaction.findOne({
+   let transactions = await Transaction.findAll({
         where: {
             userId: userId
         }});
