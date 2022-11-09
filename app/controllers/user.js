@@ -8,7 +8,7 @@ exports.createUser = (req, res) => {
     register(req.body, (err, result, status_code) => {
         return res.status(status_code).json(err ? err : result);
     });
-};
+}
 
 
 // user login api  
