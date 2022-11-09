@@ -13,7 +13,7 @@ module.exports = (sequelize, Sequelize) => {
         type         : Sequelize.INTEGER,
         allowNull    : false,
       },
-      useId: {
+      userId: {
         type         : Sequelize.INTEGER,
         foreignKey   : true
       },

@@ -1,7 +1,6 @@
 
 const jwt = require("jsonwebtoken")
 require('dotenv').config();
-var { expressjwt: jwt } = require("express-jwt");
 
 exports.isSignedIn = (req, res, next) => {
 
