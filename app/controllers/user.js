@@ -1,13 +1,17 @@
-const bcrypt = require("bcrypt");
-const dotenv = require("dotenv")
+
 const { register, userLogin, allUsers, singleUser } = require("../services/user");
 
 
 // create user api 
 exports.createUser = (req, res) => {
-    register({...req.body}, (err, result, status_code) => {
-        return res.status(status_code).json(err ? err : result);
-    });
+    const result = register({ ...req.body });
+     if (result) {
+       return res.status(409).json({ message: "user already exist" });
+     }
+    
+    return callback({ message: "user created successfully" }, 201);
+    
+
 }
 
 

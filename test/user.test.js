@@ -22,36 +22,61 @@
 
 // });
 
+let user = require("../app/services/user");
 
-let user = require("../app/controllers/user");
-
-describe("users api  test cases", () => {
-    test("create user api", async() => {
+// create user api  test cases
+describe("users create api test cases", () => {
+  test("user created successfully user api", async () => {
     let data = {
-        body:{
-        name: "user",
-        email: "user@gmail.co",
-        password: "user123"
-        }
-    }
-    var result = await user.createUser(data)
-    expect(result).toBe({
-        message: "user created successfully"
-    });
+      name: "user",
+      email: "user@gmail.co",
+      password: "user123",
+    };
+    let callback = () => {
+      return { message: "user created successfully" }, 201;
+    };
+    var result = await user.register(data, callback);
+    expect(result).toBe(201);
+    // expect(result).toBe({ message: "user created successfully" });
+  });
 
-    })
+  test("created user with empty name user api", async () => {
+    let data = {
+      name: "",
+      email: "user@gmail.co",
+      password: "user123",
+    };
+    let callback = () => {
+      return { message: "enter valid name" }, 400;
+    };
+    var result = await user.register(data, callback);
+    expect(result).toBe(400);
+  });
+
+  test("created with invalid email user api", async () => {
+    let data = {
+      name: "user",
+      email: "usergmail.co",
+      password: "user123",
+    };
+    let callback = () => {
+      return { message: "please enter valid email" }, 400;
+    };
+    var result = await user.register(data, callback);
+    expect(result).toBe(400);
+  });
+
+  test("created with duplicate email user api", async () => {
+    let data = {
+      name: "user",
+      email: "user@gmail.co",
+      password: "user123",
+    };
+    let callback = () => {
+      return { message: "user already exist" }, 409;
+    };
+    var result = await user.register(data, callback);
+    expect(result).toBe(409);
+  });
+       
 });
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
