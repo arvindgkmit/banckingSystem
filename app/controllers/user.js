@@ -5,7 +5,7 @@ const { register, userLogin, allUsers, singleUser } = require("../services/user"
 
 // create user api 
 exports.createUser = (req, res) => {
-    register(req.body, (err, result, status_code) => {
+    register({...req.body}, (err, result, status_code) => {
         return res.status(status_code).json(err ? err : result);
     });
 }
