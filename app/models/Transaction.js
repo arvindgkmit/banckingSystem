@@ -18,8 +18,9 @@ module.exports = (sequelize, Sequelize) => {
         allowNull    : false,
       },
       userId: {
-        type         : Sequelize.INTEGER,
-        allowNull    : false,
+        type: Sequelize.INTEGER,
+        foreignKey   : true,
+        allowNull    : false
       },
       dateTime: {
         type         : 'TIMESTAMP',

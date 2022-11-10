@@ -5,24 +5,30 @@ const hashPassword = require("../helper/hashPassword");
 const User = db.users;
 const Account = db.accounts;
 
-// user create service
-exports.register = async (data, callback) => {
+// check user already exist or not
+exports.checkUser = async (data) => {
   try {
-    let fetchEmail = await User.count({
+    let fetchEmail = await User.findOne({
       where: {
         email: data.email,
       },
     });
-
-    if (fetchEmail) {
-      return callback({ message: "user already exist" }, null, 409);
-    }
-
-    data.password = await hashPassword.createHash(data.password);
-    await User.create(data);
-    return callback({ message: "user created successfully" }, null, 201);
+    return fetchEmail;
   } catch (error) {
-    return callback({ error: error }, null, 500);
+    console.log(error);
+    return error;
+  }
+};
+
+// user create service
+exports.register = async (data) => {
+  try {
+    data.password = await hashPassword.createHash(data.password);
+    let saveData = await User.create(data);
+    return saveData ? true : false;
+  } catch (error) {
+    console.log(error);
+    return error;
   }
 };
 
@@ -65,7 +71,7 @@ exports.userLogin = async (data, callback) => {
 };
 
 // get all users
-exports.allUsers = async (callback) => {
+exports.allUsers = async () => {
   try {
     let userData = await User.findAll({
       attributes: { exclude: ["password"] },
@@ -76,15 +82,15 @@ exports.allUsers = async (callback) => {
         },
       ],
     });
-
-    return callback({ data: userData }, 200);
+    return userData;
   } catch (error) {
-    return callback({ error: error }, 500);
+    console.log(error);
+    return error;
   }
 };
 
 // get single user
-exports.singleUser = async (data, callback) => {
+exports.singleUser = async (data) => {
   try {
     let userData = await User.findAll({
       attributes: { exclude: ["password"] },
@@ -98,9 +104,9 @@ exports.singleUser = async (data, callback) => {
         id: data.id,
       },
     });
-
-    return callback({ data: userData }, 200);
+    return userData;
   } catch (error) {
-    return callback({ error: error }, 500);
+    console.log(error);
+    return error;
   }
 };

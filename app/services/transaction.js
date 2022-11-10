@@ -2,127 +2,72 @@ const db = require("../models/db");
 const Transaction = db.transactions;
 const Account = db.accounts;
 
-// deposit amount service
-exports.depositAmmount = async (data, callback) => {
-  if (data.amount < 0) {
-    return callback({ message: "invalid amount" }, 400);
-  }
+// check ammount
+exports.checkAmount = async (data) => {
+  accountData = await Account.findOne({
+    where: {
+      accountNo: data.accountNo,
+    },
+  });
+
+  return accountData;
+};
+
+// deposit transaction
+exports.transaction = async (data) => {
   try {
-    let checkAccount = await Account.count({
-      where: {
-        accountNo: data.accountNo,
-      },
-    });
+    let myTransaction = await Transaction.create(data);
+    console.log("myTransactionmyTransaction", myTransaction);
+    return myTransaction;
+  } catch (error) {
+    return error;
+  }
+};
 
-    if (!checkAccount) {
-      return callback({ message: "account not found" }, 404);
-    }
-    userData = await Account.findOne({
-      where: {
-        accountNo: data.accountNo,
-      },
-    });
-    let cuurentAmount = userData.amount;
-    let updateAmount = cuurentAmount + data.amount;
-
-    let getStatus = await Account.findOne({
-      where: { accountNo: data.accountNo },
-      attributes: { exclude: ["accountNo", "type", "amount", "userId"] },
-    });
-
-    let currentStatus = getStatus;
-    if (currentStatus.dataValues.status == "inactive") {
-      return callback({ message: "account is closed" }, 400);
-    }
-    await Account.update(
+// deposit amount service
+exports.depositAmmount = async (data) => {
+  try {
+    let ammountDeposite = await Account.update(
       {
-        amount: updateAmount,
+        amount: data.deposit,
       },
       {
         where: { accountNo: data.accountNo },
       }
     );
-    data.type = "deposit";
-    await Transaction.create(data);
-    return callback({ message: "amount deposit successfully" }, 200);
+    return ammountDeposite;
   } catch (error) {
-    return callback({ message: "internal server error" }, 500);
+    console.log(error);
+    return error;
   }
 };
 
 // withdraw amount service
 exports.withdrawAmount = async (data, callback) => {
-  if (data.amount < 0) {
-    return res.status(400).json({
-      message: "invalid amount",
-    });
-  }
   try {
-    let checkAccount = await Account.count({
-      where: {
-        accountNo: data.accountNo,
-      },
-    });
-
-    if (!checkAccount) {
-      return callback({ message: "account not found" }, 404);
-    }
-
-    let getStatus = await Account.findOne({
-      where: { accountNo: data.accountNo },
-      attributes: { exclude: ["accountNo", "type", "amount", "userId"] },
-    });
-
-    let currentStatus = getStatus;
-    if (currentStatus.dataValues.status == "inactive") {
-      return callback({ message: "account is already closed" }, 400);
-    }
-
-    userData = await Account.findOne({
-      where: {
-        accountNo: data.accountNo,
-      },
-    });
-
-    let cuurentAmount = userData.amount;
-    if (cuurentAmount >= data.amount) {
-      let updateAmount = cuurentAmount - data.amount;
-
-      //   let data = {
-      //     type: "withdraw",
-      //     accountNo: accountNo,
-      //     amount: amount,
-      //     userId: userId,
-      //   };
-      data.type = "withdraw";
-      await Transaction.create(data);
-      await Account.update(
-        {
-          amount: updateAmount,
-        },
-        {
-          where: { accountNo: data.accountNo },
-        }
-      );
-      return callback({ message: "amount withdraw successfully" }, 200);
-    } else {
-      return callback({ message: "insufficent amount" }, 400);
-    }
+    let amountWithdraw = await Account.update(
+      { amount: data.withdraw },
+      { where: { accountNo: data.accountNo } }
+    );
+    console.log("amountWithdrawamountWithdraw", amountWithdraw);
+    return amountWithdraw;
   } catch (error) {
-    return callback({ message: "internal server error" }, 500);
+    console.log(error);
+    return error;
   }
 };
 
 // check transaction service
-exports.checkTransaction = async (data, callback) => {
+exports.checkTransaction = async (data) => {
   try {
     let transactions = await Transaction.findAll({
       where: {
         userId: data.userId,
       },
     });
-    return callback({ data: transactions }, 200);
+    return transactions;
   } catch (error) {
-    return callback({ message: "internal server error" }, 500);
+    console.log(error);
+    return error;
   }
 };
