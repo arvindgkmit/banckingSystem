@@ -14,6 +14,7 @@ exports.createUser = async (req, res) => {
   }
 
   const isUserCreated = await register({ ...req.body });
+  //   console.log("fffff", isUserCreated);
   if (isUserCreated) {
     return res.status(201).json({ message: "user created successfully" });
   }
@@ -22,7 +23,6 @@ exports.createUser = async (req, res) => {
 // user login api
 exports.login = async (req, res) => {
   userLogin(req.body, (result, status_code) => {
-    console.log(result, "cjf");
     res.cookie("token", result.token, { expire: new Date() + 100000 });
     return res.status(status_code).json(result);
   });

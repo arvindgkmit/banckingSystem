@@ -15,7 +15,6 @@ exports.checkUser = async (data) => {
     });
     return fetchEmail;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };
@@ -25,9 +24,8 @@ exports.register = async (data) => {
   try {
     data.password = await hashPassword.createHash(data.password);
     let saveData = await User.create(data);
-    return saveData ? true : false;
+    return saveData;
   } catch (error) {
-    console.log(error);
     return error;
   }
 };

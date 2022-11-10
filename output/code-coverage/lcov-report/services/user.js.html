@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.58% </span>
+                <span class="strong">34.88% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/41</span>
+                <span class='fraction'>15/43</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>1/6</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">36.58% </span>
+                <span class="strong">34.88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/41</span>
+                <span class='fraction'>15/43</span>
             </div>
         
             
@@ -173,9 +173,7 @@
 <a name='L108'></a><a href='#L108'>108</a>
 <a name='L109'></a><a href='#L109'>109</a>
 <a name='L110'></a><a href='#L110'>110</a>
-<a name='L111'></a><a href='#L111'>111</a>
-<a name='L112'></a><a href='#L112'>112</a>
-<a name='L113'></a><a href='#L113'>113</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L111'></a><a href='#L111'>111</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -199,11 +197,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -259,9 +255,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -281,9 +277,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -304,20 +300,18 @@ exports.checkUser = <span class="fstat-no" title="function not covered" >as</spa
     });
 <span class="cstat-no" title="statement not covered" >    return fetchEmail;</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    return console.log(error);</span>
+<span class="cstat-no" title="statement not covered" >    return error;</span>
   }
 };
 &nbsp;
 // user create service
 exports.register = async (data) =&gt; {
   try {
-&nbsp;
     data.password = await hashPassword.createHash(data.password);
     let saveData = await User.create(data);
-    return saveData?true:<span class="branch-1 cbranch-no" title="branch not covered" >false;</span>
-    
+    return saveData;
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    return console.log(error);</span>
+<span class="cstat-no" title="statement not covered" >    return error;</span>
   }
 };
 &nbsp;
@@ -360,7 +354,7 @@ exports.userLogin = <span class="fstat-no" title="function not covered" >as</spa
 };
 &nbsp;
 // get all users
-exports.allUsers = <span class="fstat-no" title="function not covered" >as</span>ync (callback) =&gt; {
+exports.allUsers = <span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {
 <span class="cstat-no" title="statement not covered" >  try {</span>
     let userData = <span class="cstat-no" title="statement not covered" >await User.findAll({</span>
       attributes: { exclude: ["password"] },
@@ -371,15 +365,15 @@ exports.allUsers = <span class="fstat-no" title="function not covered" >as</span
         },
       ],
     });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return callback({ data: userData }, 200);</span>
+<span class="cstat-no" title="statement not covered" >    return userData;</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    return callback({ error: error }, 500);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(error);</span>
+<span class="cstat-no" title="statement not covered" >    return error;</span>
   }
 };
 &nbsp;
 // get single user
-exports.singleUser = <span class="fstat-no" title="function not covered" >as</span>ync (data, callback) =&gt; {
+exports.singleUser = <span class="fstat-no" title="function not covered" >as</span>ync (data) =&gt; {
 <span class="cstat-no" title="statement not covered" >  try {</span>
     let userData = <span class="cstat-no" title="statement not covered" >await User.findAll({</span>
       attributes: { exclude: ["password"] },
@@ -393,10 +387,10 @@ exports.singleUser = <span class="fstat-no" title="function not covered" >as</sp
         id: data.id,
       },
     });
-&nbsp;
-<span class="cstat-no" title="statement not covered" >    return callback({ data: userData }, 200);</span>
+<span class="cstat-no" title="statement not covered" >    return userData;</span>
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    return callback({ error: error }, 500);</span>
+<span class="cstat-no" title="statement not covered" >    console.log(error);</span>
+<span class="cstat-no" title="statement not covered" >    return error;</span>
   }
 };
 &nbsp;</pre></td></tr></table></pre>
@@ -406,7 +400,7 @@ exports.singleUser = <span class="fstat-no" title="function not covered" >as</sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-10T08:56:35.592Z
+                at 2022-11-10T12:51:19.655Z
             </div>
         <script src="../prettify.js"></script>
         <script>
